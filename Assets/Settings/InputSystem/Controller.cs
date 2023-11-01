@@ -46,6 +46,24 @@ namespace Code.Controller
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c72068f9-4a3c-4026-b222-150b7ed34a06"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd15e5cb-62e1-4893-af54-43bb050d2da2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,6 +143,28 @@ namespace Code.Controller
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e1f1b7c-b13b-47db-a78b-78cccd718697"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04d525de-e8f4-40b8-8d3a-33e25f10a686"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -135,6 +175,8 @@ namespace Code.Controller
             m_InGame = asset.FindActionMap("InGame", throwIfNotFound: true);
             m_InGame_Player = m_InGame.FindAction("Player", throwIfNotFound: true);
             m_InGame_Camera = m_InGame.FindAction("Camera", throwIfNotFound: true);
+            m_InGame_Jump = m_InGame.FindAction("Jump", throwIfNotFound: true);
+            m_InGame_Run = m_InGame.FindAction("Run", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -198,12 +240,16 @@ namespace Code.Controller
         private List<IInGameActions> m_InGameActionsCallbackInterfaces = new List<IInGameActions>();
         private readonly InputAction m_InGame_Player;
         private readonly InputAction m_InGame_Camera;
+        private readonly InputAction m_InGame_Jump;
+        private readonly InputAction m_InGame_Run;
         public struct InGameActions
         {
             private @Controller m_Wrapper;
             public InGameActions(@Controller wrapper) { m_Wrapper = wrapper; }
             public InputAction @Player => m_Wrapper.m_InGame_Player;
             public InputAction @Camera => m_Wrapper.m_InGame_Camera;
+            public InputAction @Jump => m_Wrapper.m_InGame_Jump;
+            public InputAction @Run => m_Wrapper.m_InGame_Run;
             public InputActionMap Get() { return m_Wrapper.m_InGame; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -219,6 +265,12 @@ namespace Code.Controller
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
 
             private void UnregisterCallbacks(IInGameActions instance)
@@ -229,6 +281,12 @@ namespace Code.Controller
                 @Camera.started -= instance.OnCamera;
                 @Camera.performed -= instance.OnCamera;
                 @Camera.canceled -= instance.OnCamera;
+                @Jump.started -= instance.OnJump;
+                @Jump.performed -= instance.OnJump;
+                @Jump.canceled -= instance.OnJump;
+                @Run.started -= instance.OnRun;
+                @Run.performed -= instance.OnRun;
+                @Run.canceled -= instance.OnRun;
             }
 
             public void RemoveCallbacks(IInGameActions instance)
@@ -250,6 +308,8 @@ namespace Code.Controller
         {
             void OnPlayer(InputAction.CallbackContext context);
             void OnCamera(InputAction.CallbackContext context);
+            void OnJump(InputAction.CallbackContext context);
+            void OnRun(InputAction.CallbackContext context);
         }
     }
 }
