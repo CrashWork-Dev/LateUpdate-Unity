@@ -1,10 +1,13 @@
+using Code.Controller.PlayerAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Code.Controller
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IPlayerAction
     {
+        #region 环境
+
         [SerializeField] private float walkSpeed;
         [SerializeField] private Vector3 jumpForce;
         private Controller controller;
@@ -19,6 +22,8 @@ namespace Code.Controller
         private static readonly int Ground = Animator.StringToHash("IsGround");
         private static readonly int IsRunning = Animator.StringToHash("IsRunning");
 
+        #endregion
+
         #region 初始化
 
         private void Start()
@@ -32,7 +37,6 @@ namespace Code.Controller
         {
             controller = new Controller();
             controller.InGame.Jump.started += Jump;
-            controller.InGame.Run.performed += Run;
         }
 
 
@@ -48,13 +52,15 @@ namespace Code.Controller
 
         #endregion
 
-        #region Process
+        #region 处理
 
         private void FixedUpdate()
         {
-            Walk(GetControllerValueOfWasd());
+            ((IPlayerAction)this).Walk(GetControllerValueOfWasd());
+            ((IPlayerAction)this).Run();
+            ((IPlayerAction)this).Dash();
             Check(IsGround());
-            //Run();
+            Falling();
         }
 
         private Vector2 GetControllerValueOfWasd()
@@ -62,12 +68,14 @@ namespace Code.Controller
             return controller.InGame.Player.ReadValue<Vector2>();
         }
 
-        #endregion
-
+        private void Falling()
+        {
+            if (!IsGround()) player.velocity += new Vector3(0, -4, 0);
+        }
 
         private bool IsGround()
         {
-            return Physics.Raycast(player.position, Vector3.down, 0.5f);
+            return Physics.Raycast(player.position, Vector3.down, 0.1f);
         }
 
         private void Check(bool isGround)
@@ -75,38 +83,49 @@ namespace Code.Controller
             if (isGround) animator.SetTrigger(Ground);
         }
 
-        private void Walk(Vector2 wasd)
+        private Vector3 GetPlayerToward(Vector2 wasd)
+        {
+            var transform1 = transform;
+            return (transform1.right * wasd.x + transform1.forward * wasd.y) * (Time.deltaTime * walkSpeed);
+        }
+
+        #endregion
+
+        #region 动作
+
+        void IPlayerAction.Walk(Vector2 wasd)
         {
             animator.SetBool(IsWalkingF, wasd.y > Vector2.zero.y);
             animator.SetBool(IsWalkingB, wasd.y < Vector2.zero.y);
             animator.SetBool(IsWalkingL, wasd.x < Vector2.zero.x);
             animator.SetBool(IsWalkingR, wasd.x > Vector2.zero.x);
+            player.velocity = GetPlayerToward(wasd);
+        }
 
-            var transform1 = transform;
-            var playerToward = (transform1.right * wasd.x + transform1.forward * wasd.y) * (Time.deltaTime * walkSpeed);
-            player.velocity = playerToward;
+        void IPlayerAction.Run()
+        {
+            animator.SetBool(IsRunning,
+                Keyboard.current.shiftKey.isPressed && GetControllerValueOfWasd() != Vector2.zero);
+            walkSpeed = Keyboard.current.shiftKey.isPressed ? 400 : 200;
         }
 
         //todo 跳跃手感优化
         private void Jump(InputAction.CallbackContext obj)
         {
             if (!IsGround()) return;
-            animator.SetTrigger(IsJumping);
+            if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping);
             player.AddForce(jumpForce, ForceMode.Impulse);
         }
 
-        //todo 玩家疾跑动画实现
-        private void Run(InputAction.CallbackContext obj)
+        void IPlayerAction.Dash()
         {
-            //animator.SetBool(IsRunning, controller.InGame.Run.IsPressed());
-            walkSpeed = 100;
+            if (!IsGround() && Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                player.velocity =
+                    Vector3.Lerp(player.velocity, GetPlayerToward(GetControllerValueOfWasd()) * 100, 1000);
+            }
         }
-        /*
-        private void Run()
-        {
-            animator.SetBool(IsRunning, controller.InGame.Run.IsPressed());
-            if (!controller.InGame.Run.IsPressed()) walkSpeed = 50;
-        }
-        */
+
+        #endregion
     }
 }

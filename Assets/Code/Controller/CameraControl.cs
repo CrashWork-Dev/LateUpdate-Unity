@@ -1,14 +1,20 @@
+using Code.Controller.CameraAction;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.Controller
 {
-    public class CameraControl : MonoBehaviour
+    public class CameraControl : MonoBehaviour, ICameraAction
     {
-        [SerializeField] private GameObject camera;
+        #region 环境
+
+        [SerializeField] private new GameObject camera;
         [SerializeField] private GameObject player;
         [SerializeField] private float mouseSensitivity;
         private Controller controller;
         private float cameraH, cameraV;
+
+        #endregion
 
         #region 初始化
 
@@ -29,17 +35,23 @@ namespace Code.Controller
 
         #endregion
 
+        #region 处理
+
         private void LateUpdate()
         {
-            CameraMove();
+            ((ICameraAction)this).CameraMove();
         }
 
         private Vector3 GetMousePosition()
         {
-            return new Vector3(Input.mousePositionDelta.x, Input.mousePositionDelta.y);
+            return new Vector3(Mouse.current.delta.x.ReadValue(), Mouse.current.delta.y.ReadValue());
         }
 
-        private void CameraMove()
+        #endregion
+
+        #region 动作
+
+        void ICameraAction.CameraMove()
         {
             cameraH += GetMousePosition().x * Time.deltaTime * mouseSensitivity;
             cameraV -= GetMousePosition().y * Time.deltaTime * mouseSensitivity;
@@ -49,5 +61,7 @@ namespace Code.Controller
             transform.eulerAngles = Vector3.Lerp(camera.transform.eulerAngles, cameraR, 1f);
             player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles, playerR, 1f);
         }
+
+        #endregion
     }
 }
