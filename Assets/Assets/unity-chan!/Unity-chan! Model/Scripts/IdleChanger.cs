@@ -56,7 +56,9 @@ namespace UnityChan
 			if (anim.GetBool ("Next")) {
 				// 現在のステートをチェックし、ステート名が違っていたらブーリアンをfalseに戻す
 				currentState = anim.GetCurrentAnimatorStateInfo (0);
+#pragma warning disable CS0618 // 类型或成员已过时
 				if (previousState.nameHash != currentState.nameHash) {
+#pragma warning restore CS0618 // 类型或成员已过时
 					anim.SetBool ("Next", false);
 					previousState = currentState;				
 				}
@@ -66,7 +68,9 @@ namespace UnityChan
 			if (anim.GetBool ("Back")) {
 				// 現在のステートをチェックし、ステート名が違っていたらブーリアンをfalseに戻す
 				currentState = anim.GetCurrentAnimatorStateInfo (0);
+#pragma warning disable CS0618 // 类型或成员已过时
 				if (previousState.nameHash != currentState.nameHash) {
+#pragma warning restore CS0618 // 类型或成员已过时
 					anim.SetBool ("Back", false);
 					previousState = currentState;
 				}

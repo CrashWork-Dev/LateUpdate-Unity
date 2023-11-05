@@ -1,4 +1,4 @@
-using Code.Controller.CameraAction;
+using Code.Controller.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +13,6 @@ namespace Code.Controller
         [SerializeField] private float mouseSensitivity;
         private Controller controller;
         private float cameraH, cameraV;
-
         #endregion
 
         #region 初始化
@@ -21,6 +20,7 @@ namespace Code.Controller
         private void Awake()
         {
             controller = new Controller();
+            Cursor.visible = false;
         }
 
         private void OnEnable()
@@ -41,7 +41,7 @@ namespace Code.Controller
         {
             ((ICameraAction)this).CameraMove();
         }
-
+        
         private Vector3 GetMousePosition()
         {
             return new Vector3(Mouse.current.delta.x.ReadValue(), Mouse.current.delta.y.ReadValue());
@@ -58,8 +58,9 @@ namespace Code.Controller
             cameraV = Mathf.Clamp(cameraV, -70, 40);
             var cameraR = new Vector3(cameraV, cameraH, 0);
             var playerR = new Vector3(0, cameraH, 0);
-            transform.eulerAngles = Vector3.Lerp(camera.transform.eulerAngles, cameraR, 1f);
             player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles, playerR, 1f);
+            transform.eulerAngles = Vector3.Lerp(camera.transform.eulerAngles, cameraR, 1f);
+            
         }
 
         #endregion

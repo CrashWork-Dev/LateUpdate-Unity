@@ -1,15 +1,15 @@
-using Code.Controller.PlayerAction;
+using Code.Controller.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Code.Controller
 {
-    public class Player : MonoBehaviour, IPlayerAction
+    public class Player : MonoBehaviour, IPlayerAction, ICameraAction
     {
         #region 环境
-
         [SerializeField] private float walkSpeed;
         [SerializeField] private Vector3 jumpForce;
+        [SerializeField] private new Camera camera;
         private Controller controller;
         private Rigidbody player;
         private Animator animator;
@@ -50,6 +50,10 @@ namespace Code.Controller
             controller.Disable();
         }
 
+        void ICameraAction.CameraFov(bool isRun)
+        {
+            camera.fieldOfView = isRun ? 98 : 85;
+        }
         #endregion
 
         #region 处理
@@ -59,6 +63,7 @@ namespace Code.Controller
             ((IPlayerAction)this).Walk(GetControllerValueOfWasd());
             ((IPlayerAction)this).Run();
             ((IPlayerAction)this).Dash();
+            ((ICameraAction)this).CameraFov(animator.GetBool(IsRunning));
             Check(IsGround());
             Falling();
         }
@@ -70,7 +75,7 @@ namespace Code.Controller
 
         private void Falling()
         {
-            if (!IsGround()) player.velocity += new Vector3(0, -4, 0);
+            if (!IsGround()) player.velocity += Physics.gravity;
         }
 
         private bool IsGround()

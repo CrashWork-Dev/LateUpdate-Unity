@@ -1,9 +1,6 @@
-﻿using System.Drawing.Drawing2D;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
-namespace Code.Controller.PlayerAction
+namespace Code.Controller.Interface
 {
     public interface IPlayerAction
     {

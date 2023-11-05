@@ -93,7 +93,9 @@ namespace UnityChan
 			if (Input.GetButtonDown ("Jump")) {	// スペースキーを入力したら
 
 				//アニメーションのステートがLocomotionの最中のみジャンプできる
+#pragma warning disable CS0618 // 类型或成员已过时
 				if (currentBaseState.nameHash == locoState) {
+#pragma warning restore CS0618 // 类型或成员已过时
 					//ステート遷移中でなかったらジャンプできる
 					if (!anim.IsInTransition (0)) {
 						rb.AddForce (Vector3.up * jumpPower, ForceMode.VelocityChange);
@@ -113,7 +115,9 @@ namespace UnityChan
 			// 以下、Animatorの各ステート中での処理
 			// Locomotion中
 			// 現在のベースレイヤーがlocoStateの時
+#pragma warning disable CS0618 // 类型或成员已过时
 			if (currentBaseState.nameHash == locoState) {
+#pragma warning restore CS0618 // 类型或成员已过时
 				//カーブでコライダ調整をしている時は、念のためにリセットする
 				if (useCurves) {
 					resetCollider ();
@@ -121,7 +125,9 @@ namespace UnityChan
 			}
 		// JUMP中の処理
 		// 現在のベースレイヤーがjumpStateの時
-		else if (currentBaseState.nameHash == jumpState) {
+#pragma warning disable CS0618 // 类型或成员已过时
+			else if (currentBaseState.nameHash == jumpState) {
+#pragma warning restore CS0618 // 类型或成员已过时
 				cameraObject.SendMessage ("setCameraPositionJumpView");	// ジャンプ中のカメラに変更
 				// ステートがトランジション中でない場合
 				if (!anim.IsInTransition (0)) {
@@ -157,7 +163,9 @@ namespace UnityChan
 			}
 		// IDLE中の処理
 		// 現在のベースレイヤーがidleStateの時
-		else if (currentBaseState.nameHash == idleState) {
+#pragma warning disable CS0618 // 类型或成员已过时
+			else if (currentBaseState.nameHash == idleState) {
+#pragma warning restore CS0618 // 类型或成员已过时
 				//カーブでコライダ調整をしている時は、念のためにリセットする
 				if (useCurves) {
 					resetCollider ();
@@ -169,7 +177,9 @@ namespace UnityChan
 			}
 		// REST中の処理
 		// 現在のベースレイヤーがrestStateの時
-		else if (currentBaseState.nameHash == restState) {
+#pragma warning disable CS0618 // 类型或成员已过时
+			else if (currentBaseState.nameHash == restState) {
+#pragma warning restore CS0618 // 类型或成员已过时
 				//cameraObject.SendMessage("setCameraPositionFrontView");		// カメラを正面に切り替える
 				// ステートが遷移中でない場合、Rest bool値をリセットする（ループしないようにする）
 				if (!anim.IsInTransition (0)) {
