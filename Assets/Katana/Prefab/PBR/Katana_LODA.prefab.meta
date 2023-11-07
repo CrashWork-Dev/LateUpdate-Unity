@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a8a95b589c673c247b4fec182cfe30f0
+timeCreated: 1554669046
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Prefab/PBR/Katana_LODA.prefab
+  uploadId: 304546

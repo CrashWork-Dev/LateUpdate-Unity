@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 04c65e9249fd8b543b8035821a1b848d
+timeCreated: 1554659338
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Material/PBR_Katana.mat
+  uploadId: 304546

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 790b1dfe83ebdfb44bd740cb806971aa
+timeCreated: 1554669814
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Prefab/LOD/Mobile/Katana_LOD_Mobile.prefab
+  uploadId: 304546

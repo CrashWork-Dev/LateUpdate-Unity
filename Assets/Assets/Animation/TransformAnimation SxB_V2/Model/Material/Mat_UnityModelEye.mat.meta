@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1455e38df8d6065468f3a20aa423a5fe
+timeCreated: 1519793238
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159419
+  packageName: TransformAnimation SXB
+  packageVersion: 2
+  assetPath: Assets/TransformAnimation SxB_V2/Model/Material/Mat_UnityModelEye.mat
+  uploadId: 372686

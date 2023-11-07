@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 92561d717874c0b4aa6da2d667fd2072
+timeCreated: 1554669299
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Prefab/Mobile/Katana_LODB.prefab
+  uploadId: 304546

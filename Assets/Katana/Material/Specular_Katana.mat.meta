@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5830098236266ec45a53632d8fed87ce
+timeCreated: 1554659338
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Material/Specular_Katana.mat
+  uploadId: 304546

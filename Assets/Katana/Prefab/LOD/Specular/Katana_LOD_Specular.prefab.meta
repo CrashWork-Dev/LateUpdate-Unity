@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bae77d1c8d2751b42ad9695baf363c73
+timeCreated: 1554669755
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Prefab/LOD/Specular/Katana_LOD_Specular.prefab
+  uploadId: 304546

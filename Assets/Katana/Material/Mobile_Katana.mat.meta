@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c0ce57c2008db524ca0cf73357bdc30d
+timeCreated: 1554659338
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Material/Mobile_Katana.mat
+  uploadId: 304546

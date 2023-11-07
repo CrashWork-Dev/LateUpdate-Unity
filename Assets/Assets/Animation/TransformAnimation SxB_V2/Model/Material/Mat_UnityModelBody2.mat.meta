@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f36df9a81599dd240ad40530f3c4f233
+timeCreated: 1519793238
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159419
+  packageName: TransformAnimation SXB
+  packageVersion: 2
+  assetPath: Assets/TransformAnimation SxB_V2/Model/Material/Mat_UnityModelBody2.mat
+  uploadId: 372686

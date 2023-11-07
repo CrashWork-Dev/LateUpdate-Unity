@@ -11,9 +11,11 @@ namespace Code.Controller
         [SerializeField] private Vector3 jumpForce;
         [SerializeField] private new Camera camera;
         private Controller controller;
-        private Rigidbody player;
+        private Rigidbody playerRigidbody;
         private Animator animator;
-
+        private CapsuleCollider playerCollider;
+        private float orgColHight;
+        private Vector3 orgVectColCenter;
         private static readonly int IsWalkingF = Animator.StringToHash("IsWalkingF");
         private static readonly int IsWalkingL = Animator.StringToHash("IsWalkingL");
         private static readonly int IsWalkingB = Animator.StringToHash("IsWalkingB");
@@ -21,6 +23,7 @@ namespace Code.Controller
         private static readonly int IsJumping = Animator.StringToHash("IsJumping");
         private static readonly int Ground = Animator.StringToHash("IsGround");
         private static readonly int IsRunning = Animator.StringToHash("IsRunning");
+        private static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
 
         #endregion
 
@@ -28,15 +31,18 @@ namespace Code.Controller
 
         private void Start()
         {
-            player = GetComponent<Rigidbody>();
+            playerRigidbody = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
-            player.freezeRotation = true;
+            playerRigidbody.freezeRotation = true;
+            //orgColHight = playerCollider.height;
+            //orgVectColCenter = playerCollider.center;
         }
 
         private void Awake()
         {
             controller = new Controller();
-            controller.InGame.Jump.started += Jump;
+            controller.InGame.Jump.started += ((IPlayerAction)this).Jump;
+            controller.InGame.Attack.started += ((IPlayerAction)this).Attack;
         }
 
 
@@ -75,12 +81,12 @@ namespace Code.Controller
 
         private void Falling()
         {
-            if (!IsGround()) player.velocity += Physics.gravity;
+            if (!IsGround()) playerRigidbody.velocity += Physics.gravity;
         }
 
         private bool IsGround()
         {
-            return Physics.Raycast(player.position, Vector3.down, 0.1f);
+            return Physics.Raycast(playerRigidbody.position, Vector3.down, 0.08f);
         }
 
         private void Check(bool isGround)
@@ -104,7 +110,7 @@ namespace Code.Controller
             animator.SetBool(IsWalkingB, wasd.y < Vector2.zero.y);
             animator.SetBool(IsWalkingL, wasd.x < Vector2.zero.x);
             animator.SetBool(IsWalkingR, wasd.x > Vector2.zero.x);
-            player.velocity = GetPlayerToward(wasd);
+            playerRigidbody.velocity = GetPlayerToward(wasd);
         }
 
         void IPlayerAction.Run()
@@ -113,24 +119,33 @@ namespace Code.Controller
                 Keyboard.current.shiftKey.isPressed && GetControllerValueOfWasd() != Vector2.zero);
             walkSpeed = Keyboard.current.shiftKey.isPressed ? 400 : 200;
         }
-
-        //todo 跳跃手感优化
-        private void Jump(InputAction.CallbackContext obj)
+        
+        void IPlayerAction.Jump(InputAction.CallbackContext obj)
         {
             if (!IsGround()) return;
             if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping);
-            player.AddForce(jumpForce, ForceMode.Impulse);
+            playerRigidbody.AddForce(jumpForce, ForceMode.VelocityChange);
         }
 
         void IPlayerAction.Dash()
         {
             if (!IsGround() && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
-                player.velocity =
-                    Vector3.Lerp(player.velocity, GetPlayerToward(GetControllerValueOfWasd()) * 100, 1000);
+                playerRigidbody.velocity =
+                    Vector3.Lerp(playerRigidbody.velocity, GetPlayerToward(GetControllerValueOfWasd()) * 20, 1000);
             }
         }
+        //todo 跳跃碰撞体跟随
+        void IPlayerAction.ResetCollider()
+        {
+            
+        }
 
+        void IPlayerAction.Attack(InputAction.CallbackContext obj)
+        {
+            animator.SetTrigger(IsAttacking);
+            
+        }
         #endregion
     }
 }

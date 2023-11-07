@@ -42,7 +42,7 @@ namespace Code.Controller
             ((ICameraAction)this).CameraMove();
         }
         
-        private Vector3 GetMousePosition()
+        private static Vector3 GetMousePosition()
         {
             return new Vector3(Mouse.current.delta.x.ReadValue(), Mouse.current.delta.y.ReadValue());
         }

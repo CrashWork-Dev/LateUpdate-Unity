@@ -64,6 +64,15 @@ namespace Code.Controller
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""342eff9f-1fd3-43da-b5f5-3b31ce09fd48"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,17 @@ namespace Code.Controller
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15c90204-80ef-4f28-bd79-44307b456add"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +197,7 @@ namespace Code.Controller
             m_InGame_Camera = m_InGame.FindAction("Camera", throwIfNotFound: true);
             m_InGame_Jump = m_InGame.FindAction("Jump", throwIfNotFound: true);
             m_InGame_Run = m_InGame.FindAction("Run", throwIfNotFound: true);
+            m_InGame_Attack = m_InGame.FindAction("Attack", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -242,6 +263,7 @@ namespace Code.Controller
         private readonly InputAction m_InGame_Camera;
         private readonly InputAction m_InGame_Jump;
         private readonly InputAction m_InGame_Run;
+        private readonly InputAction m_InGame_Attack;
         public struct InGameActions
         {
             private @Controller m_Wrapper;
@@ -250,6 +272,7 @@ namespace Code.Controller
             public InputAction @Camera => m_Wrapper.m_InGame_Camera;
             public InputAction @Jump => m_Wrapper.m_InGame_Jump;
             public InputAction @Run => m_Wrapper.m_InGame_Run;
+            public InputAction @Attack => m_Wrapper.m_InGame_Attack;
             public InputActionMap Get() { return m_Wrapper.m_InGame; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -271,6 +294,9 @@ namespace Code.Controller
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
 
             private void UnregisterCallbacks(IInGameActions instance)
@@ -287,6 +313,9 @@ namespace Code.Controller
                 @Run.started -= instance.OnRun;
                 @Run.performed -= instance.OnRun;
                 @Run.canceled -= instance.OnRun;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
             }
 
             public void RemoveCallbacks(IInGameActions instance)
@@ -310,6 +339,7 @@ namespace Code.Controller
             void OnCamera(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnRun(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
     }
 }

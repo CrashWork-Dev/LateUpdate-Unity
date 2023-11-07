@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.Controller.Interface
 {
@@ -14,6 +15,16 @@ namespace Code.Controller.Interface
 
         //protected internal void Jump(InputAction.CallbackContext obj) { }
         protected internal void Dash()
+        {
+        }
+
+        protected internal void Jump(InputAction.CallbackContext obj)
+        {
+        }
+        protected internal void Attack(InputAction.CallbackContext obj)
+        {
+        }
+        protected internal void ResetCollider()
         {
         }
     }

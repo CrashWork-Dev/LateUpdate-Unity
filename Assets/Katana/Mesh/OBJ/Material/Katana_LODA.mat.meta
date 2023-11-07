@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 089a9963cd7df2640b92e0ffcb2071f0
+timeCreated: 1554658288
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143768
+  packageName: Katana
+  packageVersion: 1.0
+  assetPath: Assets/Katana/Mesh/OBJ/Material/Katana_LODA.mat
+  uploadId: 304546
