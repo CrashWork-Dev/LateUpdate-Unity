@@ -2,8 +2,6 @@
 {
     public interface IHorseAction
     {
-        public void Die()
-        {
-        }
+        void Die();
     }
 }
