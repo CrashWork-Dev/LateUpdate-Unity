@@ -7,15 +7,18 @@ namespace Code.Menu.MainMenu
     {
         private bool toInGame;
         private bool isQuit;
+
         public static void Switch2InGameMenu(bool ts)
         {
-            if (ts) SceneManager.LoadScene("InGame");
+            if (!ts) return;
+            SceneManager.LoadScene("InGame");
         }
 
         public static void Quit(bool qt)
         {
-            if(qt) Application.Quit();
+            if (qt) Application.Quit();
         }
+
         private void Update()
         {
             Switch2InGameMenu(toInGame);

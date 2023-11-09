@@ -7,11 +7,13 @@ namespace Code.Menu.InGameMenu
     public class InGameMenu : MonoBehaviour
     {
         private bool toMainMenu;
-        private GameObject inGame;
+        [SerializeField] private GameObject inGame;
         private bool isMenuOpen;
+
         private void Awake()
         {
-            inGame = GameObject.Find("InGameMenu");
+            Time.timeScale = 1;
+            Cursor.visible = false;
             inGame.SetActive(isMenuOpen);
         }
 
@@ -21,6 +23,7 @@ namespace Code.Menu.InGameMenu
             {
                 CallMenu();
             }
+
             Switch2MainMenu(toMainMenu);
         }
 
@@ -31,7 +34,7 @@ namespace Code.Menu.InGameMenu
             Time.timeScale = isMenuOpen ? 0 : 1;
             Cursor.visible = isMenuOpen;
         }
-        
+
         public static void Switch2MainMenu(bool ts)
         {
             if (!ts) return;

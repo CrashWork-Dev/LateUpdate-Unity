@@ -1,29 +1,19 @@
 using Code.Controller.Interface;
+using Code.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Code.Controller
 {
-    public class Player : MonoBehaviour, IPlayerAction, ICameraAction
+    public class PlayerControl : Data.Data, IPlayerAction, ICameraAction
     {
         #region 环境
-        [SerializeField] private float walkSpeed;
-        [SerializeField] private Vector3 jumpForce;
         [SerializeField] private new Camera camera;
         private Controller controller;
         private Rigidbody playerRigidbody;
         private Animator animator;
         private CapsuleCollider playerCollider;
-        private float orgColHight;
-        private Vector3 orgVectColCenter;
-        private static readonly int IsWalkingF = Animator.StringToHash("IsWalkingF");
-        private static readonly int IsWalkingL = Animator.StringToHash("IsWalkingL");
-        private static readonly int IsWalkingB = Animator.StringToHash("IsWalkingB");
-        private static readonly int IsWalkingR = Animator.StringToHash("IsWalkingR");
-        private static readonly int IsJumping = Animator.StringToHash("IsJumping");
-        private static readonly int Ground = Animator.StringToHash("IsGround");
-        private static readonly int IsRunning = Animator.StringToHash("IsRunning");
-        private static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
 
         #endregion
 
@@ -68,8 +58,10 @@ namespace Code.Controller
         {
             ((IPlayerAction)this).Walk(GetControllerValueOfWasd());
             ((IPlayerAction)this).Run();
-            ((IPlayerAction)this).Dash();
+            //((IPlayerAction)this).Dead();
+            //((IPlayerAction)this).Dash();
             ((ICameraAction)this).CameraFov(animator.GetBool(IsRunning));
+            
             Check(IsGround());
             Falling();
         }
@@ -81,7 +73,7 @@ namespace Code.Controller
 
         private void Falling()
         {
-            if (!IsGround()) playerRigidbody.velocity += Physics.gravity;
+            if (!IsGround()) playerRigidbody.velocity += new Vector3(0,-4,0);
         }
 
         private bool IsGround()
@@ -124,17 +116,17 @@ namespace Code.Controller
         {
             if (!IsGround()) return;
             if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping);
-            playerRigidbody.AddForce(jumpForce, ForceMode.VelocityChange);
+            playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
         }
 
-        void IPlayerAction.Dash()
-        {
-            if (!IsGround() && Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                playerRigidbody.velocity =
-                    Vector3.Lerp(playerRigidbody.velocity, GetPlayerToward(GetControllerValueOfWasd()) * 20, 1000);
-            }
-        }
+        // void IPlayerAction.Dash()
+        // {
+        //     if (!IsGround() && Keyboard.current.spaceKey.wasPressedThisFrame)
+        //     {
+        //         playerRigidbody.velocity =
+        //             Vector3.Lerp(playerRigidbody.velocity, GetPlayerToward(GetControllerValueOfWasd()) * 20, 1000);
+        //     }
+        // }
         //todo 跳跃碰撞体跟随
         void IPlayerAction.ResetCollider()
         {
@@ -144,7 +136,6 @@ namespace Code.Controller
         void IPlayerAction.Attack(InputAction.CallbackContext obj)
         {
             animator.SetTrigger(IsAttacking);
-            
         }
         #endregion
     }

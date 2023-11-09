@@ -13,15 +13,15 @@ namespace Code.Weapon.Katana
             obj = GameObject.Find("Katana");
             obj.SetActive(false);
         }
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             obj.SetActive(true);
         }
-        
+
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             obj.SetActive(false);
         }
     }
 }
-
