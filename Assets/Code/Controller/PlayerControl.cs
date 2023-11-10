@@ -1,8 +1,7 @@
+using System;
 using Code.Controller.Interface;
-using Code.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 namespace Code.Controller
 {
@@ -14,7 +13,8 @@ namespace Code.Controller
         private Rigidbody playerRigidbody;
         private Animator animator;
         private CapsuleCollider playerCollider;
-
+        private bool onWall;
+        [SerializeField] private float fallSpeed;
         #endregion
 
         #region 初始化
@@ -24,8 +24,6 @@ namespace Code.Controller
             playerRigidbody = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             playerRigidbody.freezeRotation = true;
-            //orgColHight = playerCollider.height;
-            //orgVectColCenter = playerCollider.center;
         }
 
         private void Awake()
@@ -58,12 +56,11 @@ namespace Code.Controller
         {
             ((IPlayerAction)this).Walk(GetControllerValueOfWasd());
             ((IPlayerAction)this).Run();
-            //((IPlayerAction)this).Dead();
-            //((IPlayerAction)this).Dash();
             ((ICameraAction)this).CameraFov(animator.GetBool(IsRunning));
-            
             Check(IsGround());
             Falling();
+            fallSpeed = 6;
+            onWall = false;
         }
 
         private Vector2 GetControllerValueOfWasd()
@@ -73,7 +70,10 @@ namespace Code.Controller
 
         private void Falling()
         {
-            if (!IsGround()) playerRigidbody.velocity += new Vector3(0,-4,0);
+            if (!IsGround())
+            {
+                playerRigidbody.velocity += new Vector3(0, -fallSpeed, 0);
+            }
         }
 
         private bool IsGround()
@@ -109,14 +109,17 @@ namespace Code.Controller
         {
             animator.SetBool(IsRunning,
                 Keyboard.current.shiftKey.isPressed && GetControllerValueOfWasd() != Vector2.zero);
-            walkSpeed = Keyboard.current.shiftKey.isPressed ? 400 : 200;
+            walkSpeed = animator.GetBool(IsRunning) ? 400 : 200;
+            
         }
         
         void IPlayerAction.Jump(InputAction.CallbackContext obj)
         {
-            if (!IsGround()) return;
-            if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping);
+            if (!IsGround() && !onWall) return;
+            onWall = false;
+            if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping); 
             playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
+
         }
 
         // void IPlayerAction.Dash()
@@ -137,6 +140,13 @@ namespace Code.Controller
         {
             animator.SetTrigger(IsAttacking);
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if(other.CompareTag("wall")) fallSpeed = 0;
+            onWall = true;
+        }
+
         #endregion
     }
 }
