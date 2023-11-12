@@ -10,8 +10,8 @@ jobs:
   Pack:
     runs-on: ubuntu-latest
     steps:
-      - uses: FrostBanditTeam/extract-unity-package-action@1
       - name: pack cl
+        uses: FrostBanditTeam/extract-unity-package-action@1
         with:
           unityProjectPath: ./
           packagePath: Assets
