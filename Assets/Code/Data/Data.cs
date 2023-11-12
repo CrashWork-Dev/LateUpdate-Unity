@@ -1,10 +1,8 @@
-﻿using System;
-using Code.Enemy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Data
 {
-    public class Data:MonoBehaviour
+    public class Data : MonoBehaviour
     {
         [SerializeField] protected float walkSpeed;
         [SerializeField] protected Vector3 jumpForce;

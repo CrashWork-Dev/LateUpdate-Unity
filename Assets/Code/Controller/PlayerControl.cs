@@ -1,4 +1,3 @@
-using System;
 using Code.Controller.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +7,7 @@ namespace Code.Controller
     public class PlayerControl : Data.Data, IPlayerAction, ICameraAction
     {
         #region 环境
+
         [SerializeField] private new Camera camera;
         private Controller controller;
         private Rigidbody playerRigidbody;
@@ -15,6 +15,7 @@ namespace Code.Controller
         private CapsuleCollider playerCollider;
         private bool onWall;
         [SerializeField] private float fallSpeed;
+
         #endregion
 
         #region 初始化
@@ -44,10 +45,15 @@ namespace Code.Controller
             controller.Disable();
         }
 
+        void ICameraAction.CameraMove()
+        {
+        }
+
         void ICameraAction.CameraFov(bool isRun)
         {
             camera.fieldOfView = isRun ? 98 : 85;
         }
+
         #endregion
 
         #region 处理
@@ -59,7 +65,7 @@ namespace Code.Controller
             ((ICameraAction)this).CameraFov(animator.GetBool(IsRunning));
             Check(IsGround());
             Falling();
-            fallSpeed = 6;
+            fallSpeed = 5;
             onWall = false;
         }
 
@@ -110,16 +116,14 @@ namespace Code.Controller
             animator.SetBool(IsRunning,
                 Keyboard.current.shiftKey.isPressed && GetControllerValueOfWasd() != Vector2.zero);
             walkSpeed = animator.GetBool(IsRunning) ? 400 : 200;
-            
         }
-        
+
         void IPlayerAction.Jump(InputAction.CallbackContext obj)
         {
             if (!IsGround() && !onWall) return;
             onWall = false;
-            if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping); 
+            if (GetControllerValueOfWasd() == Vector2.zero) animator.SetTrigger(IsJumping);
             playerRigidbody.AddForce(jumpForce, ForceMode.Impulse);
-
         }
 
         // void IPlayerAction.Dash()
@@ -133,7 +137,6 @@ namespace Code.Controller
         //todo 跳跃碰撞体跟随
         void IPlayerAction.ResetCollider()
         {
-            
         }
 
         void IPlayerAction.Attack(InputAction.CallbackContext obj)
@@ -143,7 +146,7 @@ namespace Code.Controller
 
         private void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("wall")) fallSpeed = 0;
+            if (other.CompareTag("wall")) fallSpeed = 0;
             onWall = true;
         }
 

@@ -6,9 +6,16 @@ namespace Code.Menu.InGameMenu
 {
     public class InGameMenu : MonoBehaviour
     {
+        #region 环境
+
         private bool toMainMenu;
+        [SerializeField] private GameObject[] otherMenu;
         [SerializeField] private GameObject inGame;
         private bool isMenuOpen;
+
+        #endregion
+
+        #region 初始化
 
         private void Awake()
         {
@@ -16,6 +23,10 @@ namespace Code.Menu.InGameMenu
             Cursor.visible = false;
             inGame.SetActive(isMenuOpen);
         }
+
+        #endregion
+
+        #region 处理
 
         private void Update()
         {
@@ -27,8 +38,21 @@ namespace Code.Menu.InGameMenu
             Switch2MainMenu(toMainMenu);
         }
 
+        #endregion
+
+        #region 行为
+
+        private void IsOtherMenuOpen()
+        {
+            foreach (var t in otherMenu)
+            {
+                if (t.activeSelf) t.SetActive(false);
+            }
+        }
+
         private void CallMenu()
         {
+            IsOtherMenuOpen();
             inGame.SetActive(!isMenuOpen);
             isMenuOpen = !isMenuOpen;
             Time.timeScale = isMenuOpen ? 0 : 1;
@@ -41,5 +65,8 @@ namespace Code.Menu.InGameMenu
             Time.timeScale = 1;
             SceneManager.LoadScene("MainMenu");
         }
+
+        #endregion
+        
     }
 }

@@ -8,7 +8,7 @@ namespace Code.Controller.Interface
         protected internal void Walk(Vector2 wasd);
 
         protected internal void Run();
-        
+
         //protected internal void Dash();
 
         protected internal void Jump(InputAction.CallbackContext obj);

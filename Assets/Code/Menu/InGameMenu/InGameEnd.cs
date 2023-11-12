@@ -6,21 +6,48 @@ namespace Code.Menu.InGameMenu
 {
     public class InGameEnd : MonoBehaviour
     {
+        #region 环境
+
         private bool isRetry;
         [SerializeField] private Animator animator;
         [SerializeField] private GameObject endGame;
         [SerializeField] private Text text;
+        [SerializeField] private AudioSource replay;
+        [SerializeField] private GameObject mainMenu;
         private static readonly int Hp = Animator.StringToHash("Hp");
         private static readonly int Score = Animator.StringToHash("Score");
+
+        #endregion
+
+        #region 初始化
 
         private void Awake()
         {
             endGame.SetActive(false);
         }
 
-        private static void Retry(bool rt)
+        #endregion
+
+        #region 处理
+
+        private void Update()
+        {
+            if (animator.GetInteger(Hp) < 0 && !mainMenu.activeSelf)
+            {
+                CallMenu();
+            }
+
+            Retry(isRetry);
+        }
+
+        #endregion
+
+        #region 行为
+
+        private void Retry(bool rt)
         {
             if (!rt) return;
+            replay.Play();
             SceneManager.LoadScene("InGame");
         }
 
@@ -32,14 +59,6 @@ namespace Code.Menu.InGameMenu
             Cursor.visible = true;
         }
 
-        private void Update()
-        {
-            if (animator.GetInteger(Hp) < 0)
-            {
-                CallMenu();
-            }
-
-            Retry(isRetry);
-        }
+        #endregion
     }
 }

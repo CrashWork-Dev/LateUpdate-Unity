@@ -1,42 +1,50 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Code.Menu.Loading
 {
     public class LoadingScene : MonoBehaviour
     {
+        #region 环境
+
         private AudioSource sound;
         [SerializeField] private GameObject text;
+
+        #endregion
+
+        #region 初始化
+
         private void Awake()
         {
             sound = GetComponent<AudioSource>();
             sound.playOnAwake = true;
         }
+        private void Start()
+        {
+            Invoke(nameof(Loading), 2f);
+        }
+        
+        #endregion
+
+        #region 处理
 
         private void FixedUpdate()
         {
             var eulerAngles = text.transform.eulerAngles;
-            eulerAngles = Vector3.Lerp(eulerAngles,new Vector3(eulerAngles.x,eulerAngles.y+4,eulerAngles.z+4) , 1f);
+            eulerAngles = Vector3.Lerp(eulerAngles, new Vector3(eulerAngles.x, eulerAngles.y + 4, eulerAngles.z + 4),
+                1f);
             text.transform.eulerAngles = eulerAngles;
         }
 
-        private void Start()
-        {
-            
-            Invoke(nameof(Loading),2f);
-            
-        }
+        #endregion
+
+        #region 行为
 
         private void Loading()
         {
-            SceneManager.LoadSceneAsync("InGame", LoadSceneMode.Single);
+            SceneManager.LoadScene("InGame");
         }
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+
+        #endregion
     }
 }

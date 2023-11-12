@@ -13,6 +13,7 @@ namespace Code.Controller
         [SerializeField] private float mouseSensitivity;
         private Controller controller;
         private float cameraH, cameraV;
+
         #endregion
 
         #region 初始化
@@ -41,7 +42,7 @@ namespace Code.Controller
         {
             ((ICameraAction)this).CameraMove();
         }
-        
+
         private static Vector3 GetMousePosition()
         {
             return new Vector3(Mouse.current.delta.x.ReadValue(), Mouse.current.delta.y.ReadValue());
@@ -60,7 +61,10 @@ namespace Code.Controller
             var playerR = new Vector3(0, cameraH, 0);
             player.transform.eulerAngles = Vector3.Lerp(player.transform.eulerAngles, playerR, 1f);
             transform.eulerAngles = Vector3.Lerp(camera.transform.eulerAngles, cameraR, 1f);
-            
+        }
+
+        void ICameraAction.CameraFov(bool isRun)
+        {
         }
 
         #endregion
