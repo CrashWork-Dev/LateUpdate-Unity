@@ -1,0 +1,11 @@
+- name: Export .unitypackage from Unity Project
+  # You may pin to the exact commit or the version.
+  # uses: FrostBanditTeam/extract-unity-package-action@8aff23ee2b9663391db959e4b8ba3170ae276897
+  uses: FrostBanditTeam/extract-unity-package-action@1
+  with:
+    # Path to the unity project
+    unityProjectPath: # default is ./
+    # Project relative path to be packaged.
+    packagePath: # optional, default is Assets
+    # Path to the output package
+    outputPackagePath: # optional, default is ./artifacts/output.unitypackage
