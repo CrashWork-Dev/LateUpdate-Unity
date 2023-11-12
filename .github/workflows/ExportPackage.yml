@@ -1,4 +1,4 @@
-- name: Export .unitypackage from Unity Project
+- name: ExportPackage
   # You may pin to the exact commit or the version.
   # uses: FrostBanditTeam/extract-unity-package-action@8aff23ee2b9663391db959e4b8ba3170ae276897
   uses: FrostBanditTeam/extract-unity-package-action@1
