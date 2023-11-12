@@ -8,7 +8,7 @@ on:
 
 jobs:
   Pack:
-    runs-on: ubuntu-latest
+    runs-on: centos-latest
     steps:
       - name: pack cl
         uses: FrostBanditTeam/extract-unity-package-action@1
